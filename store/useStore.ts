@@ -1,17 +1,19 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-// Ensure you import the Product type we just created
+// Ensure you import the Product type from your API route
 import { Product } from "@/app/api/products/route";
 
 // CartItem needs to store a single image string for the cart UI
-interface CartItem extends Omit<Product, 'images'> {
+// We Omit 'images' (array) and replace it with 'image' (string)
+export interface CartItem extends Omit<Product, 'images'> {
     quantity: number;
-    image: string; // Cart only needs one thumbnail
+    image: string;
 }
 
 interface AppState {
     // --- Data State ---
     cart: CartItem[];
+    wishlist: Product[]; // <--- Added Wishlist State
 
     // --- Modal State ---
     viewingProduct: Product | null;
@@ -25,6 +27,8 @@ interface AppState {
     addToCart: (product: Product, quantity?: number) => void;
     removeFromCart: (id: string) => void;
 
+    toggleWishlist: (product: Product) => void; // <--- Added Wishlist Action
+
     setViewingProduct: (product: Product | null) => void;
 
     setDiningContext: (table: string, hall: string) => void;
@@ -34,20 +38,27 @@ interface AppState {
 export const useAppStore = create<AppState>()(
     persist(
         (set) => ({
+            // Initial State
             cart: [],
+            wishlist: [], // <--- Initialize Empty Wishlist
             viewingProduct: null,
             diningMode: 'delivery',
             tableId: null,
             hallId: null,
 
+            // --- Cart Actions ---
             addToCart: (product, quantity = 1) => set((state) => {
                 const existing = state.cart.find((i) => i.id === product.id);
 
                 // Logic: If item exists, increase quantity
                 if (existing) {
+                    const newQuantity = existing.quantity + quantity;
+
+                    // Safety check: If quantity becomes 0 or less, you might want to remove it
+                    // But usually, the UI handles the remove call. We'll just update here.
                     return {
                         cart: state.cart.map((i) =>
-                            i.id === product.id ? { ...i, quantity: i.quantity + quantity } : i
+                            i.id === product.id ? { ...i, quantity: newQuantity } : i
                         )
                     };
                 }
@@ -57,7 +68,7 @@ export const useAppStore = create<AppState>()(
                 const newCartItem: CartItem = {
                     ...product,
                     quantity: quantity,
-                    image: product.images[0]
+                    image: product.images[0] // Take the first image for the cart thumbnail
                 };
 
                 return { cart: [...state.cart, newCartItem] };
@@ -67,8 +78,21 @@ export const useAppStore = create<AppState>()(
                 cart: state.cart.filter((i) => i.id !== id)
             })),
 
+            // --- Wishlist Actions ---
+            toggleWishlist: (product) => set((state) => {
+                const exists = state.wishlist.some((p) => p.id === product.id);
+                if (exists) {
+                    // Remove from wishlist
+                    return { wishlist: state.wishlist.filter((p) => p.id !== product.id) };
+                }
+                // Add to wishlist
+                return { wishlist: [...state.wishlist, product] };
+            }),
+
+            // --- Modal Actions ---
             setViewingProduct: (product) => set({ viewingProduct: product }),
 
+            // --- Session Actions ---
             setDiningContext: (table, hall) => set({
                 diningMode: 'dine-in',
                 tableId: table,
@@ -81,6 +105,6 @@ export const useAppStore = create<AppState>()(
                 hallId: null
             }),
         }),
-        { name: 'food-app-storage' }
+        { name: 'food-app-storage' } // LocalStorage key
     )
 );

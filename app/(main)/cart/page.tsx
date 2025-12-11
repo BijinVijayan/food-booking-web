@@ -120,11 +120,11 @@ export default function CartPage() {
                             </div>
 
                             {/* Quantity Controls (Matches Screenshot) */}
-                            <div className="flex items-center gap-3 bg-zinc-50 dark:bg-zinc-800 rounded-full p-1 border border-zinc-200 dark:border-zinc-700">
+                            <div className="flex items-center gap-3 bg-zinc-100 dark:bg-zinc-800 rounded-full p-1 border-0 border-zinc-200 dark:border-zinc-700">
                                 {/* Decrease Button (Gray) */}
                                 <button
                                     onClick={() => handleDecrease(item)}
-                                    className="w-8 h-8 flex items-center justify-center bg-zinc-200 dark:bg-zinc-700 rounded-full shadow-sm text-zinc-600 dark:text-zinc-200 active:scale-95 transition-transform"
+                                    className="w-8 h-8 flex items-center justify-center bg-white dark:bg-zinc-700 rounded-full shadow-sm text-zinc-600 dark:text-zinc-200 active:scale-95 transition-transform"
                                 >
                                     <Minus className="w-4 h-4" />
                                 </button>
@@ -159,7 +159,7 @@ export default function CartPage() {
                                 className="w-full bg-transparent text-sm outline-none text-zinc-700 dark:text-zinc-200 placeholder:text-zinc-400"
                             />
                         </div>
-                        <button className="bg-primary text-white px-6 py-3 rounded-lg text-sm font-bold hover:bg-orange-600 transition-colors shadow-lg shadow-primary/20">
+                        <button className="bg-primary text-white px-6 py-3 rounded-lg text-sm font-bold transition-colors shadow-lg shadow-primary/20">
                             Apply
                         </button>
                     </div>
@@ -199,7 +199,7 @@ export default function CartPage() {
                 <div className="max-w-md mx-auto">
                     <button
                         onClick={() => router.push('/checkout')}
-                        className="w-full bg-primary hover:bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/25 active:scale-95 transition-transform"
+                        className="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/25 active:scale-95 transition-transform"
                     >
                         Proceed to Checkout
                     </button>

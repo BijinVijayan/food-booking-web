@@ -124,7 +124,7 @@ export default function ProductList() {
                                         ADD
                                     </button>
                                 ) : (
-                                    <div className="flex items-center bg-zinc-50 dark:bg-zinc-800 rounded-full p-1 ">
+                                    <div className="flex items-center bg-zinc-100 dark:bg-zinc-800 rounded-full p-2 ">
                                         {/* Minus Button */}
                                         <button
                                             onClick={(e) => handleDecrease(e, item)}

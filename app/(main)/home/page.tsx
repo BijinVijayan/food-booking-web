@@ -15,8 +15,8 @@ export default function Home() {
             <div className="mb-6 relative group">
                 <input
                     type="text"
-                    placeholder="Search for restaurants or dishes..."
-                    className="w-full bg-zinc-100 dark:bg-zinc-800 py-3.5 pl-12 pr-4 rounded-xl text-sm outline-none text-zinc-700 dark:text-zinc-200 placeholder:text-zinc-400 focus:ring-2 focus:ring-orange-500/50 transition-all"
+                    placeholder="Search for dishes..."
+                    className="w-full bg-zinc-100 dark:bg-zinc-800 py-3.5 pl-12 pr-4 rounded-xl text-sm outline-none text-zinc-700 dark:text-zinc-200 placeholder:text-zinc-400 focus:ring-2 focus:ring-transparent transition-all"
                 />
                 <Search className="w-5 h-5 text-zinc-400 absolute left-4 top-3.5 group-focus-within:text-orange-500 transition-colors" />
             </div>

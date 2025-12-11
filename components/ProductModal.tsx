@@ -9,10 +9,13 @@ import { cn } from "@/lib/utils";
 
 export default function ProductModal() {
     // 1. Get cart and actions from store
-    const { viewingProduct, setViewingProduct, addToCart, removeFromCart, cart } = useAppStore();
+    const { viewingProduct, setViewingProduct, addToCart, removeFromCart, cart, wishlist,
+        toggleWishlist } = useAppStore();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     if (!viewingProduct) return null;
+    // wishlist
+    const isWishlisted = wishlist.some((item) => item.id === viewingProduct.id);
 
     // 2. Helper to get live quantity from store
     const getCartQuantity = () => {
@@ -139,8 +142,22 @@ export default function ProductModal() {
                         <div className="p-4 ">
                             <div className="flex gap-3 items-center">
                                 {/* Wishlist */}
-                                <button className="h-[56px] w-[56px] flex items-center justify-center rounded-xl border-2 border-primary dark:border-primary text-primary bg-white dark:bg-zinc-900 transition-colors">
-                                    <Heart className="w-6 h-6 fill-current" />
+                                {/* 3. Wishlist Button with Dynamic Styling */}
+                                <button
+                                    onClick={() => toggleWishlist(viewingProduct)}
+                                    className={cn(
+                                        "h-[56px] w-[56px] flex items-center justify-center rounded-xl border-2 transition-all active:scale-95",
+                                        isWishlisted
+                                            ? "border-primary bg-orange-100 dark:bg-red-900/20 text-primary"
+                                            : "border-primary/80 dark:border-primary text-primary/80 bg-white dark:bg-zinc-900"
+                                    )}
+                                >
+                                    <Heart
+                                        className={cn(
+                                            "w-7 h-7 transition-all",
+                                            isWishlisted ? "fill-current" : "fill-none"
+                                        )}
+                                    />
                                 </button>
 
                                 {/* Dynamic Button Section */}
