@@ -47,10 +47,10 @@ export default function CategoryList() {
                             <button
                                 key={cat.id}
                                 onClick={() => handleSelect(cat.id)}
-                                className="flex flex-col items-center gap-2 min-w-[80px] transition-opacity active:opacity-70 group"
+                                className="flex flex-col items-center gap-2.5 transition-opacity group"
                             >
                                 <div
-                                    className="w-16 h-16 relative rounded-xl overflow-hidden shadow-sm bg-white dark:bg-zinc-800"
+                                    className=" relative rounded-xl overflow-hidden shadow-sm bg-white dark:bg-zinc-800"
                                 >
                                     <Image
                                         src={cat.image}

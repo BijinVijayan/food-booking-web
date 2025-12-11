@@ -48,10 +48,10 @@ export default function ProductList() {
             {products.map((item) => (
                 <div
                     key={item.id}
-                    className="flex gap-4 p-3 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800"
+                    className="flex gap-4 p-2.5 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800"
                 >
                     {/* Image Section */}
-                    <div className="relative w-28 h-28 shrink-0 rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                    <div className="relative w-28 h-28 shrink-0 rounded-sm overflow-hidden bg-zinc-100 dark:bg-zinc-800">
                         <Image
                             src={item.image}
                             alt={item.name}

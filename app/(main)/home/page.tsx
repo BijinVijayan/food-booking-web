@@ -26,7 +26,7 @@ export default function Home() {
                This prevents layout shift when hydration happens.
             */}
             <Suspense fallback={
-                <div className="grid grid-cols-4 gap-4 pb-2 mb-8">
+                <div className="grid grid-cols-4 gap-2 gap-y-4 pb-2 mb-8">
                     {[...Array(4)].map((_, i) => (
                         <div key={i} className="flex flex-col items-center gap-2 animate-pulse">
                             <div className="w-16 h-16 bg-zinc-200 dark:bg-zinc-800 rounded-xl" />
@@ -49,13 +49,9 @@ export default function Home() {
             </div>
 
             {/* 5. Product List */}
-            {/* CRITICAL: Use the SAME CardSkeleton here.
-               This satisfies Next.js 'useSearchParams' requirement
-               AND provides a seamless UI experience.
-            */}
             <Suspense fallback={
                 <div className="flex flex-col gap-4">
-                    <CardSkeleton /><CardSkeleton /><CardSkeleton />
+                    <CardSkeleton /><CardSkeleton /><CardSkeleton /><CardSkeleton />
                 </div>
             }>
                 <ProductList />
