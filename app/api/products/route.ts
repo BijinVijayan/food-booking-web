@@ -8,6 +8,8 @@ export interface Product {
     reviews: string;
     images: string[];
     category: string;
+    // 👇 ADDED: Sub-category for filtering (e.g., "Classic", "Gourmet")
+    subCategory: string;
     isVeg: boolean;
     description: string;
 }
@@ -25,6 +27,7 @@ const data: Product[] = [
             "/images/products/cheeseburger3.jpg"
         ],
         category: "burger",
+        subCategory: "beef", // 👈 Added
         isVeg: false,
         description: "A juicy, flame-grilled beef patty topped with melted cheddar cheese, fresh lettuce, tomatoes, and our secret house sauce on a toasted brioche bun."
     },
@@ -38,6 +41,7 @@ const data: Product[] = [
             "/images/products/MargheritaPizza.webp",
         ],
         category: "pizza",
+        subCategory: "classic", // 👈 Added
         isVeg: true,
         description: "Authentic Italian classic featuring a thin, crispy crust, tangy tomato sauce, fresh mozzarella cheese, and aromatic basil leaves."
     },
@@ -49,6 +53,7 @@ const data: Product[] = [
         reviews: "3k+",
         images: ["/images/products/Chocolate-lava-cake.jpg"],
         category: "dessert",
+        subCategory: "cakes", // 👈 Added
         isVeg: false,
         description: "Decadent chocolate cake with a molten truffle center, served warm with a scoop of vanilla bean ice cream."
     },
@@ -60,6 +65,7 @@ const data: Product[] = [
         reviews: "900+",
         images: ["/images/products/supreme pizza cake.jpg"],
         category: "pizza",
+        subCategory: "gourmet", // 👈 Added
         isVeg: false,
         description: "Loaded with tender chicken chunks, bell peppers, onions, olives, and extra mozzarella for the ultimate feast."
     },
@@ -71,6 +77,7 @@ const data: Product[] = [
         reviews: "500+",
         images: ["/images/products/masala dosa.jpg"],
         category: "south-indian",
+        subCategory: "classic", // 👈 Added
         isVeg: true,
         description: "Crispy fermented crepe made from rice batter and black lentils, stuffed with a lightly cooked filling of potatoes, fried onions and spices."
     }
@@ -79,11 +86,18 @@ const data: Product[] = [
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get("category");
+    const subCategory = searchParams.get("subcategory"); // 👈 Get subcategory param
 
     let filteredData = data;
 
+    // 1. Filter by Main Category (e.g. "pizza")
     if (category && category !== "all") {
-        filteredData = data.filter((item) => item.category === category);
+        filteredData = filteredData.filter((item) => item.category === category);
+    }
+
+    // 2. Filter by Sub Category (e.g. "classic", "gourmet")
+    if (subCategory && subCategory !== "all") {
+        filteredData = filteredData.filter((item) => item.subCategory === subCategory);
     }
 
     // Simulate network delay

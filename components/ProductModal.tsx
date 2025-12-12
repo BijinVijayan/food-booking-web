@@ -60,7 +60,7 @@ export default function ProductModal() {
                         animate={{ y: 0 }}
                         exit={{ y: "100%" }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="fixed bottom-0 left-0 w-full h-[80vh] md:h-[75vh] bg-white dark:bg-zinc-950 z-[70] rounded-t-[2.5rem] overflow-hidden shadow-2xl flex flex-col"
+                        className="fixed bottom-0 mx-auto max-w-md w-full h-[80vh] md:h-[75vh] bg-white dark:bg-zinc-950 z-[70] rounded-t-[2.5rem] overflow-hidden shadow-2xl flex flex-col"
                     >
                         {/* --- TOP: Image Carousel --- */}
                         <div className="relative h-[45%] w-full bg-zinc-100 dark:bg-zinc-900">

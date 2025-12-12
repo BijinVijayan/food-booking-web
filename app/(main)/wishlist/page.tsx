@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {ChevronLeft, Trash2} from "lucide-react";
+import { ChevronLeft, Trash2 } from "lucide-react";
 import { useAppStore } from "@/store/useStore";
 import { Product } from "@/app/api/products/route";
 
@@ -14,41 +15,26 @@ export default function WishlistPage() {
     const toggleWishlist = useAppStore((state) => state.toggleWishlist);
     const addToCart = useAppStore((state) => state.addToCart);
 
-    // 2. Logic: Move to Cart (Add + Remove from Wishlist)
+    // 2. Hydration State Logic
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    useEffect(() => {
+        setIsLoaded(true);
+    }, []);
+
     const moveToCart = (item: Product) => {
         addToCart(item, 1);
-        toggleWishlist(item); // Toggle removes it since it's already there
+        toggleWishlist(item);
     };
 
-    // 3. Logic: Just Remove
     const removeFromWishlist = (item: Product) => {
         toggleWishlist(item);
     };
 
-    if (wishlist.length === 0) {
-        return (
-            <div className="flex flex-col h-screen bg-zinc-50 dark:bg-zinc-950">
-                <header className="p-4 flex items-center gap-4  dark:bg-zinc-950 z-10">
-                    <button onClick={() => router.back()} className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full">
-                        <ChevronLeft className="w-6 h-6 text-zinc-800 dark:text-white" />
-                    </button>
-                    <h1 className="text-xl font-bold text-zinc-900 dark:text-white">My Wishlist</h1>
-                </header>
-                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center opacity-60">
-                    <div className="w-24 h-24 bg-zinc-200 dark:bg-zinc-800 rounded-full flex items-center justify-center mb-4">
-                        <HeartIconPlaceholder />
-                    </div>
-                    <h2 className="text-lg font-bold mb-2">Your wishlist is empty</h2>
-                    <p className="text-sm text-zinc-500">Save your favorite food here to order fast!</p>
-                </div>
-            </div>
-        );
-    }
-
     return (
-        <div className="flex flex-col min-h-screen bg-zinc-50 dark:bg-zinc-950 pb-24">
-            {/* Header */}
-            <header className="sticky top-0 z-20 dark:bg-zinc-950 px-4 py-4 flex items-center gap-4">
+        <div className="flex flex-col min-h-screen bg-zinc-100 dark:bg-zinc-950 pb-10">
+            {/* HEADER (Always Visible, No Loading State) */}
+            <header className="sticky top-0 z-20 bg-zinc-50 dark:bg-zinc-950 px-4 py-4 flex items-center gap-4">
                 <button
                     onClick={() => router.back()}
                     className="p-2 -ml-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors"
@@ -58,62 +44,90 @@ export default function WishlistPage() {
                 <h1 className="text-xl font-bold text-zinc-900 dark:text-white">My Wishlist</h1>
             </header>
 
-            {/* Wishlist Grid/List */}
-            <div className="p-4 flex flex-col gap-4">
-                {wishlist.map((item) => (
-                    <div
-                        key={item.id}
-                        className="flex gap-4 p-3 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800"
-                    >
-                        {/* Image */}
-                        <div className="relative w-24 h-24 shrink-0 rounded-sm overflow-hidden bg-zinc-100 dark:bg-zinc-800">
-                            <Image
-                                src={item.images[0]}
-                                alt={item.name}
-                                fill
-                                sizes="96px"
-                                className="object-cover"
-                            />
-                        </div>
+            {/* CONTENT AREA: Switches between Loading, Empty, and List */}
+            {!isLoaded ? (
+                // 1. SKELETON LOADER (Only for products)
+                <div className="p-4 flex flex-col gap-4">
+                    {[...Array(3)].map((_, i) => (
+                        <div key={i} className="flex gap-4 p-3 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800">
+                            {/* Image Skeleton */}
+                            <div className="w-24 h-24 shrink-0 rounded-sm bg-zinc-200 dark:bg-zinc-800 animate-pulse" />
 
-                        {/* Content */}
-                        <div className="flex flex-col flex-1 justify-between">
-                            <div>
-                                <h3 className="font-bold text-zinc-900 dark:text-white line-clamp-1 text-base">
-                                    {item.name}
-                                </h3>
-                                <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">
-                                    AED {item.price.toFixed(2)}
-                                </p>
-                            </div>
-
-                            {/* Actions Row */}
-                            <div className="flex gap-3 mt-2">
-                                {/* Add to Cart Button */}
-                                <button
-                                    onClick={() => moveToCart(item)}
-                                    className="flex-1 bg-primary text-white text-sm font-bold py-2.5 rounded-md shadow-lg shadow-primary/20 active:scale-95 transition-transform flex items-center justify-center gap-2"
-                                >
-                                    Add to Cart
-                                </button>
-
-                                {/* Delete Button */}
-                                <button
-                                    onClick={() => removeFromWishlist(item)}
-                                    className="w-10 h-10 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-900/20 rounded-lg transition-colors active:scale-95"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
+                            {/* Content Skeleton */}
+                            <div className="flex flex-col flex-1 justify-between py-1">
+                                <div>
+                                    <div className="h-5 w-3/4 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse mb-2" />
+                                    <div className="h-4 w-1/3 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse" />
+                                </div>
+                                <div className="flex gap-3 mt-2">
+                                    <div className="flex-1 h-10 bg-zinc-200 dark:bg-zinc-800 rounded-md animate-pulse" />
+                                    <div className="w-10 h-10 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse" />
+                                </div>
                             </div>
                         </div>
+                    ))}
+                </div>
+            ) : wishlist.length === 0 ? (
+                // 2. EMPTY STATE
+                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center opacity-60">
+                    <div className="w-24 h-24 bg-zinc-200 dark:bg-zinc-800 rounded-full flex items-center justify-center mb-4">
+                        <HeartIconPlaceholder />
                     </div>
-                ))}
-            </div>
+                    <h2 className="text-lg font-bold mb-2">Your wishlist is empty</h2>
+                    <p className="text-sm text-zinc-500">Save your favorite food here to order fast!</p>
+                </div>
+            ) : (
+                // 3. ACTUAL PRODUCT LIST
+                <div className="p-4 flex flex-col gap-4">
+                    {wishlist.map((item) => (
+                        <div
+                            key={item.id}
+                            className="flex gap-4 p-3 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800"
+                        >
+                            <div className="relative w-24 h-24 shrink-0 rounded-sm overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                                <Image
+                                    src={item.images[0]}
+                                    alt={item.name}
+                                    fill
+                                    sizes="96px"
+                                    className="object-cover"
+                                />
+                            </div>
+
+                            <div className="flex flex-col flex-1 justify-between">
+                                <div>
+                                    <h3 className="font-bold text-zinc-900 dark:text-white line-clamp-1 text-base">
+                                        {item.name}
+                                    </h3>
+                                    <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">
+                                        AED {item.price.toFixed(2)}
+                                    </p>
+                                </div>
+
+                                <div className="flex gap-3 mt-2">
+                                    <button
+                                        onClick={() => moveToCart(item)}
+                                        className="flex-1 bg-primary text-white text-sm font-bold py-2.5 rounded-md shadow-lg shadow-primary/20 active:scale-95 transition-transform flex items-center justify-center gap-2"
+                                    >
+                                        Add to Cart
+                                    </button>
+
+                                    <button
+                                        onClick={() => removeFromWishlist(item)}
+                                        className="w-10 h-10 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-900/20 rounded-lg transition-colors active:scale-95"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }
 
-// Simple Icon for Empty State
 function HeartIconPlaceholder() {
     return (
         <svg

@@ -24,7 +24,7 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-zinc-50 dark:bg-zinc-950 pb-32">
+        <div className="flex flex-col min-h-screen bg-zinc-50 dark:bg-zinc-950 pb-10">
 
             {/* 1. Header */}
             <header className="sticky top-0 z-20 dark:bg-zinc-950 px-4 py-4 flex items-center gap-4">

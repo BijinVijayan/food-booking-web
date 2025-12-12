@@ -35,7 +35,7 @@ export default function BottomNav() {
     ];
 
     return (
-        <div className="fixed bottom-0 left-0 w-full z-50 bg-white dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 pb-safe">
+        <div className="max-w-md mx-auto fixed bottom-0 w-full z-50 bg-white dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 pb-safe">
             <div className="flex justify-around items-center h-[70px] px-2">
                 {navItems.map((item) => {
                     const isActive = pathname.startsWith(item.href);

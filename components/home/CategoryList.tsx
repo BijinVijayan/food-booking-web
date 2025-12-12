@@ -20,7 +20,7 @@ export default function CategoryList() {
     }, []);
 
     const handleSelect = (id: string) => {
-        router.push(`/category/${id}`, { scroll: false });
+        router.push(`/category/${id}`);
     };
 
     return (
@@ -28,7 +28,6 @@ export default function CategoryList() {
             <h2 className="text-xl font-bold mb-4 text-zinc-900 dark:text-white">
                 Explore Categories
             </h2>
-
             {/* Added w-full to grid items implicitly by the grid structure */}
             <div className="grid grid-cols-4 gap-4 pb-2">
                 {isLoading

@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {ChevronLeft, Minus, Plus, Tag, Trash2} from "lucide-react";
+import { ChevronLeft, Minus, Plus, Tag, Trash2 } from "lucide-react";
 import { useAppStore } from "@/store/useStore";
 
 // 1. Define the type to fix the "any" error
@@ -13,7 +13,6 @@ interface CartItem {
     price: number;
     image: string;
     quantity: number;
-    // Add other properties if your store has them (rating, reviews, etc.)
 }
 
 export default function CartPage() {
@@ -26,11 +25,17 @@ export default function CartPage() {
 
     const [couponCode, setCouponCode] = useState("");
 
+    // 👇 Hydration Check
+    const [isLoaded, setIsLoaded] = useState(false);
+    useEffect(() => {
+        setIsLoaded(true);
+    }, []);
+
     // 2. Calculate Totals using useMemo for performance
     const { itemTotal, taxes, deliveryFee, grandTotal } = useMemo(() => {
         const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
         const tax = total * 0.05; // 5% Tax example
-        const delivery = total > 0 ? 20.00 : 0; // Matching screenshot (20.00)
+        const delivery = total > 0 ? 20.00 : 0;
 
         return {
             itemTotal: total,
@@ -43,8 +48,6 @@ export default function CartPage() {
     // 3. Handlers with strict types
     const handleDecrease = (item: CartItem) => {
         if (item.quantity > 1) {
-            // Assuming your store handles negative quantity to subtract
-            // You might need to cast 'item' to 'Product' if your store types are strict
             addToCart(item as any, -1);
         } else {
             removeFromCart(item.id);
@@ -55,10 +58,52 @@ export default function CartPage() {
         addToCart(item as any, 1);
     };
 
+    // --- Loading State: Render Skeletons ---
+    if (!isLoaded) {
+        return (
+            <div className="flex flex-col min-h-screen bg-zinc-100 dark:bg-zinc-950 pb-32 relative">
+                <header className="p-4 flex items-center gap-4  dark:bg-zinc-950 z-10">
+                    <button onClick={() => router.back()} className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full">
+                        <ChevronLeft className="w-6 h-6 text-zinc-800 dark:text-white" />
+                    </button>
+                    <h1 className="text-xl font-bold text-zinc-900 dark:text-white">Your Cart</h1>
+                </header>
+
+                <div className="p-4 flex flex-col gap-6">
+                    {/* Cart Items Skeleton */}
+                    <div className="flex flex-col gap-4">
+                        {[...Array(3)].map((_, i) => (
+                            <div key={i} className="flex items-center gap-4 p-2.5 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                                <div className="w-20 h-20 shrink-0 rounded-xl bg-zinc-200 dark:bg-zinc-800 animate-pulse" />
+                                <div className="flex-1 min-w-0 space-y-2">
+                                    <div className="h-4 w-3/4 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse" />
+                                    <div className="h-3 w-1/4 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse" />
+                                </div>
+                                <div className="w-24 h-8 bg-zinc-200 dark:bg-zinc-800 rounded-full animate-pulse" />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Offers Skeleton */}
+                    <div className="h-16 w-full bg-zinc-200 dark:bg-zinc-800 rounded-xl animate-pulse" />
+
+                    {/* Bill Details Skeleton */}
+                    <div className="bg-white dark:bg-zinc-900 rounded-2xl p-5 border border-zinc-100 dark:border-zinc-800 space-y-4">
+                        <div className="h-5 w-1/3 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse mb-2" />
+                        <div className="flex justify-between"><div className="h-4 w-1/4 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"/><div className="h-4 w-1/6 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"/></div>
+                        <div className="flex justify-between"><div className="h-4 w-1/4 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"/><div className="h-4 w-1/6 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"/></div>
+                        <div className="my-2 border-t border-dashed border-zinc-300 dark:border-zinc-700" />
+                        <div className="flex justify-between"><div className="h-5 w-1/4 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"/><div className="h-5 w-1/4 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"/></div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     // --- Empty State ---
     if (cart.length === 0) {
         return (
-            <div className="flex flex-col h-screen bg-zinc-50 dark:bg-zinc-950">
+            <div className="flex flex-col h-screen bg-zinc-100 dark:bg-zinc-950">
                 <header className="p-4 flex items-center gap-4  dark:bg-zinc-950 z-10">
                     <button onClick={() => router.back()} className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full">
                         <ChevronLeft className="w-6 h-6 text-zinc-800 dark:text-white" />
@@ -78,7 +123,7 @@ export default function CartPage() {
 
     return (
         // pb-40 ensures the content isn't hidden behind the fixed checkout button
-        <div className="flex flex-col min-h-screen bg-zinc-50 dark:bg-zinc-950 pb-40">
+        <div className="flex flex-col min-h-screen bg-zinc-50 dark:bg-zinc-950 pb-32 relative">
 
             {/* Header */}
             <header className="sticky top-0 z-20  dark:bg-zinc-950 px-4 py-4 flex items-center gap-4">
@@ -97,7 +142,7 @@ export default function CartPage() {
                     {cart.map((item) => (
                         <div
                             key={item.id}
-                            className="flex items-center gap-4 p-3 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800"
+                            className="flex items-center gap-4 p-2.5 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800"
                         >
                             {/* Image */}
                             <div className="relative w-20 h-20 shrink-0 rounded-xl overflow-hidden bg-zinc-100 dark:bg-zinc-800">
@@ -195,7 +240,7 @@ export default function CartPage() {
             </div>
 
             {/* FIXED BOTTOM CHECKOUT BUTTON */}
-            <div className="fixed bottom-20 left-0 w-full  p-4  z-30">
+            <div className="fixed bottom-20 self-center w-full p-4 z-30">
                 <div className="max-w-md mx-auto">
                     <button
                         onClick={() => router.push('/checkout')}
