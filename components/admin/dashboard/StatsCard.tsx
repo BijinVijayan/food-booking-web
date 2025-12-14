@@ -12,7 +12,7 @@ interface StatsCardProps {
 
 export default function StatsCard({ label, value, trend, trendUp, subtext, icon: Icon }: StatsCardProps) {
     return (
-        <div className="p-4 md:p-6 bg-white border border-zinc-100 rounded-2xl md:rounded-3xl shadow-[0px_4px_20px_rgba(0,0,0,0.02)] hover:shadow-lg transition-shadow">
+        <div className="p-4 md:p-6 bg-white border border-zinc-100 rounded-2xl md:rounded-3xl shadow-[0px_4px_20px_rgba(0,0,0,0.02)] transition-shadow">
             <div className="flex justify-between items-start mb-3 md:mb-4">
                 <div>
                     {/* Smaller text on mobile */}

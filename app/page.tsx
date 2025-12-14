@@ -36,7 +36,6 @@ export default function LandingPage() {
                         Order your favorite meals instantly. Dine-in or delivery, we've got you covered.
                     </p>
                 </div>
-
                 <div className="flex flex-col gap-4 w-full">
                     {/* Primary Action */}
                     <Link
