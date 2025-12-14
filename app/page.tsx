@@ -40,7 +40,7 @@ export default function LandingPage() {
                 <div className="flex flex-col gap-4 w-full">
                     {/* Primary Action */}
                     <Link
-                        href="/login"
+                        href="/login-customer"
                         className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-transform active:scale-95 shadow-lg shadow-orange-500/25"
                     >
                         Get Started
