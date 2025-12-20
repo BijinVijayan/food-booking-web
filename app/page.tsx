@@ -33,13 +33,13 @@ export default function LandingPage() {
                         Craving <span className="text-orange-500">Pizza?</span>
                     </h1>
                     <p className="text-zinc-200 text-sm max-w-[280px] mx-auto">
-                        Order your favorite meals instantly. Dine-in or delivery, we've got you covered.
+                        Order your favorite meals instantly. Dine-in or delivery, we&#39;ve got you covered.
                     </p>
                 </div>
                 <div className="flex flex-col gap-4 w-full">
                     {/* Primary Action */}
                     <Link
-                        href="/login-customer"
+                        href="/login"
                         className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-transform active:scale-95 shadow-lg shadow-orange-500/25"
                     >
                         Get Started
