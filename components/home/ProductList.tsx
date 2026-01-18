@@ -86,7 +86,8 @@ export default function ProductList() {
                                 src={item.images[0]}
                                 alt={item.name}
                                 fill
-                                sizes="112px"
+                                sizes="(max-width: 768px) 25vw, 150px"
+                                quality={70}
                                 className="object-cover"
                             />
                         </div>

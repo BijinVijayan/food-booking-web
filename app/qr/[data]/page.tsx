@@ -98,25 +98,24 @@ export default function QRHandler({ params }: QRHandlerProps) {
                     We are setting up your table...
                 </p>
             </div>
-
-            {parsedData && (
-                <div className="mt-8 flex flex-col gap-2 rounded-xl bg-white p-4 border border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800 min-w-[280px]">
-                    <div className="flex justify-between items-center text-sm">
-                        <span className="text-zinc-500">Store:</span>
-                        <span className="font-mono font-bold text-zinc-800 dark:text-zinc-200">{parsedData.slug}</span>
-                    </div>
-                    <div className="h-px w-full bg-zinc-100 dark:bg-zinc-800" />
-                    <div className="flex justify-between items-center text-sm">
-                        <span className="text-zinc-500">Hall ID:</span>
-                        <span className="font-mono font-bold text-zinc-800 dark:text-zinc-200">{parsedData.hallId.slice(0, 6)}...</span>
-                    </div>
-                    <div className="h-px w-full bg-zinc-100 dark:bg-zinc-800" />
-                    <div className="flex justify-between items-center text-sm">
-                        <span className="text-zinc-500">Table ID:</span>
-                        <span className="font-mono font-bold text-orange-600">{parsedData.tableId.slice(0, 6)}...</span>
-                    </div>
-                </div>
-            )}
+            {/*{parsedData && (*/}
+            {/*    <div className="mt-8 flex flex-col gap-2 rounded-xl bg-white p-4 border border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800 min-w-[280px]">*/}
+            {/*        <div className="flex justify-between items-center text-sm">*/}
+            {/*            <span className="text-zinc-500">Store:</span>*/}
+            {/*            <span className="font-mono font-bold text-zinc-800 dark:text-zinc-200">{parsedData.slug}</span>*/}
+            {/*        </div>*/}
+            {/*        <div className="h-px w-full bg-zinc-100 dark:bg-zinc-800" />*/}
+            {/*        <div className="flex justify-between items-center text-sm">*/}
+            {/*            <span className="text-zinc-500">Hall ID:</span>*/}
+            {/*            <span className="font-mono font-bold text-zinc-800 dark:text-zinc-200">{parsedData.hallId.slice(0, 6)}...</span>*/}
+            {/*        </div>*/}
+            {/*        <div className="h-px w-full bg-zinc-100 dark:bg-zinc-800" />*/}
+            {/*        <div className="flex justify-between items-center text-sm">*/}
+            {/*            <span className="text-zinc-500">Table ID:</span>*/}
+            {/*            <span className="font-mono font-bold text-orange-600">{parsedData.tableId.slice(0, 6)}...</span>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*)}*/}
         </div>
     );
 }

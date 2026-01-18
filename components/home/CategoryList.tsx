@@ -56,6 +56,7 @@ export default function CategoryList() {
                                         alt={cat.name}
                                         fill
                                         sizes="(max-width: 768px) 25vw, 150px"
+                                        quality={70}
                                         className="object-cover group-hover:scale-110 transition-transform duration-300"
                                         onError={(e) => {
                                             e.currentTarget.style.display = "none";

@@ -85,7 +85,8 @@ export default function ProductModal() {
                                             src={src}
                                             alt={viewingProduct.name}
                                             fill
-                                            sizes="100vw"
+                                            sizes="(max-width: 768px) 50vw, 450px"
+                                            quality={70}
                                             className="object-cover"
                                             priority={idx === 0}
                                         />

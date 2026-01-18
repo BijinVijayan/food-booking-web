@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function LandingPage() {
     return (
-        <div className="relative h-screen w-full flex flex-col justify-end pb-24 px-4">
+        <div className="relative h-screen w-full max-w-md mx-auto flex flex-col justify-end pb-24 px-4">
 
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 z-0">
